@@ -11,13 +11,13 @@
 
 //Libreria keyboard bluetooth low energy
 #include <BleKeyboard.h>
-BleKeyboard tecladoFantasma("tecladoFantasma", "by Reber28", 80);                         //80 es el nivel de bateria que se mostrara
+BleKeyboard tecladoFantasma("tecladoFantasma", "by Reber28", 80);                     //80 es el nivel de bateria que se mostrara
 
 
 //Declaraciones NFC
 #define SS_PIN 5
 #define RST_PIN 2
-MFRC522 mfrc522(SS_PIN, RST_PIN);                                                         // Instance of the class
+MFRC522 mfrc522(SS_PIN, RST_PIN);                                                     // Instance of the class
 MFRC522::MIFARE_Key key;
 
 
@@ -40,13 +40,13 @@ char cadenaTiempo[16];
 byte LecturaUID[4];                                                                       // crea array para almacenar el UID leido
 byte Usuario1[4] = {0x99, 0x59, 0x8C, 0x9D} ;                                             // Cambiar el UID de tarjeta leido en programa 1. Al pasar la tarjeta deseada
                                                                                           // se imprime en Monitor Serie de manera Hexadecimal
-String password = "**********";
+String password = "**********";                                                           // Aquí tu contraseña de Windows
 boolean btConnect = false;
 
 
 //Declaraciones pantalla OLED
 #define ANCHO_PANTALLA 128                                                                // Ancho de la pantalla OLED
-#define ALTO_PANTALLA 64 // Alto de la pantalla OLED
+#define ALTO_PANTALLA 64                                                                  // Alto de la pantalla OLED
 
 #define OLED_RESET     -1                                                                 // Pin reset incluido en algunos modelos de pantallas (-1 si no disponemos de pulsador). 
 #define DIRECCION_PANTALLA 0x3C                                                           //Dirección de comunicacion: 0x3D para 128x64, 0x3C para 128x32
@@ -123,20 +123,20 @@ void loop() {
   if (comparaUID(LecturaUID, Usuario1))                                                   // llama a funcion comparaUID con Usuario1
     Serial.println("Bienvenido Usuario 1");                                               // si retorna verdadero muestra texto bienvenida
 
-  /*  else if (comparaUID(LecturaUID, Usuario2)) // llama a funcion comparaUID con Usuario2*/
-  /* Serial.println("Bienvenido Usuario 2"); // si retorna verdadero muestra texto bienvenida*/
+  /*  else if (comparaUID(LecturaUID, Usuario2))                                          // llama a funcion comparaUID con Usuario2*/
+  /* Serial.println("Bienvenido Usuario 2");                                              // si retorna verdadero muestra texto bienvenida*/
   else           // si retorna falso
-    Serial.println("No te conozco");    // muestra texto equivalente a acceso denegado
+    Serial.println("No te conozco");                                                      // muestra texto equivalente a acceso denegado
 
 
 
 
   tarjetaCorrecta();
-//  escribir();
+  escribir();
 
 
 
-  mfrc522.PICC_HaltA();     // detiene comunicacion con tarjeta
+  mfrc522.PICC_HaltA();                                                                   // detiene comunicacion con tarjeta
   delay(3000);
   imprimir();
   tiempo();
@@ -203,6 +203,9 @@ void imprimirMensajeTarjeta() {
 }
 
 /*
+Escribe el password deja pasar dos segundos,
+y presiona de manera automática enter
+*/
 void escribir() {
   tecladoFantasma.write(KEY_RETURN);
   delay(3500);
@@ -211,7 +214,6 @@ void escribir() {
   tecladoFantasma.press(KEY_RETURN);
   tecladoFantasma.releaseAll();
 }
-*/
 
 
 
